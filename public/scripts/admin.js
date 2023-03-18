@@ -73,6 +73,6 @@ async function addUser() {
         alert("Utente creato");
         location.reload();
     } else {
-        alert("Errore nella creazione dell"utente: " + (await response.json()).errorText);
+        alert("Errore nella creazione dell'utente: " + (await response.json()).errorText);
     }
 }
