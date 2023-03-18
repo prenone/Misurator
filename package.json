@@ -1,0 +1,32 @@
+{
+  "name": "misurator",
+  "version": "0.1.2",
+  "description": "Aiuta gli aspiranti fisici a registrare, memorizzare ed esportare misure sperimentali",
+  "main": "index.js",
+  "scripts": {
+    "generate": "npx prisma generate",
+    "build": "npm run generate",
+    "deploy": "npx prisma migrate deploy",
+    "start": "npm run deploy && node index.js",
+    "build-docker": "docker build -t misurator . && docker save misurator:latest > misurator.tar",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Achille Merendino",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/cookie": "^8.3.0",
+    "@fastify/static": "^6.9.0",
+    "@fastify/view": "^7.4.1",
+    "@prisma/client": "^4.11.0",
+    "bcrypt": "^5.1.0",
+    "ejs": "^3.1.9",
+    "fastify": "^4.14.1",
+    "fastify-favicon": "^4.3.0",
+    "randomstring": "^1.2.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.21",
+    "prisma": "^4.11.0"
+  },
+  "type": "module"
+}

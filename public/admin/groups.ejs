@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Admin - Groups</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <h1>Gruppi</h1>
+    <% groups.forEach(function(group, index){ %>
+        <li>
+            <%= group.id %>. <b>
+                    <%= group.name %>
+                </b> <button onclick="deleteGroup(this)" data-groupid="<%= group.id %>">Elimina</button>
+        </li>
+        <% }) %>
+
+            <p>Nome del gruppo</p>
+            <input id="groupNameInput">
+            <button onclick="addGroup()">Aggiungi</button>
+
+            <script src="/scripts/admin.js"></script>
+</body>
+
+</html>

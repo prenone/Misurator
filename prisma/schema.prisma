@@ -1,0 +1,60 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+    previewFeatures = ["metrics"]
+}
+
+model User {
+    id Int @id @default(autoincrement())
+    name String @unique
+    password String @unique
+    group Group @relation(fields: [groupId], references: [id])
+    groupId Int
+    measurements Measurement[]
+    role Role
+    tokens Token[]
+    needPasswordChange Boolean @default(true)
+}
+
+model Token {
+    id Int @id @default(autoincrement())
+    token String @unique
+    user User @relation(fields: [userId], references: [id])
+    userId Int
+}
+
+model Group {
+    id Int @id @default(autoincrement())
+    name String @unique
+    users User[]
+    experiments Experiment[]
+}
+
+model Experiment {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    name      String
+    group Group @relation(fields: [groupId], references: [id])
+    groupId Int
+    measurements Measurement[]
+    key String @unique
+}
+
+model Measurement {
+    id Int @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    measure String
+    user User @relation(fields: [userId], references: [id])
+    userId Int
+    experiment Experiment @relation(fields: [experimentId], references: [id])
+    experimentId Int
+}
+
+enum Role {
+    USER
+    ADMIN
+}

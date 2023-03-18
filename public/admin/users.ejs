@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Admin - Users</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <h1>Utenti</h1>
+    <% users.forEach(function(user, index){ %>
+    <li>
+        <%= user.id %>.
+        <b>
+            <%= user.name %>
+        </b>
+        <%= user.group.name %>
+        (<%= user.role %>)
+        <button onclick="deleteUser(this)" data-userid="<%= user.id %>">Elimina</button>
+    </li>
+    <% }) %>
+    
+    <p>Nome utente</p>
+    <input id="userNameInput">
+    <p>Password</p>
+    <input id="userPasswordInput" type="password">
+    <p>Gruppo</p>
+    <select id="userGroupSelect">
+        <% groups.forEach(function(group, index){ %>
+        <option value="<%= group.id %>"><%= group.name %></option>
+        <% }) %>
+    </select>
+    <p>Ruolo</p>
+    <input id="userAdminInput" type="checkbox" value="false">Admin</input>
+
+    <br>
+
+    <button onclick="addUser()">Aggiungi</button>
+    
+    <script src="/scripts/admin.js"></script>
+</body>
+
+</html>
