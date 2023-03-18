@@ -51,7 +51,7 @@ async function deleteUser(element) {
         alert("Utente eliminato");
         location.reload();
     } else {
-        alert("Errore nella eliminazione dell"utente: " + (await response.json()).errorText);
+        alert("Errore nella eliminazione dell'utente: " + (await response.json()).errorText);
     }
 }
 
