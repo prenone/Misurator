@@ -2,7 +2,7 @@
 
 Misurator is a tool designed for Physics students, created by Achille Merendino during the course Laboratorio di Meccanica. The tool is designed to store data on a PostgreSQL database instance and allow for its retrieval as CSV or Numpy Arrays. The code is written in Node.js and comes with a .devcontainer useful for contributing.
 
-An online version is hosted at [https://misurator.achilleme.com/](misurator.achilleme.com/)
+An online version is hosted at [misurator.achilleme.com](https://misurator.achilleme.com/)
 
 ![Misurator Icon](https://misurator.achilleme.com/favicon.ico)
 
