@@ -16,6 +16,12 @@ export function generateNumpyArray(measurements) {
     return numpy_code;
 }
 
+export function generateSemicolonSeparated(measurements) {
+    const measures = measurementsToArray(measurements);
+
+    return measures.join(";");
+}
+
 export function generateCSV(measurements) {
     const measures = measurementsToArray(measurements);
 

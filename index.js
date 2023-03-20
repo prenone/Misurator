@@ -12,7 +12,7 @@ import bcrypt from "bcrypt";
 import crypto, { randomUUID } from "crypto";
 
 import { getTokenData, redirectToLogin } from "./auth.js";
-import { generateCSV, generateNumpyArray } from "./exportdata_generators.js";
+import { generateCSV, generateNumpyArray, generateSemicolonSeparated } from "./exportdata_generators.js";
 
 import path from "path";
 import * as url from "url";
@@ -592,7 +592,8 @@ fastify.get("/export/:experimentId", async (req, reply) => {
                 csv: exportdata_url + experiment.key + ".csv"
             },
             data: {
-                numpy: generateNumpyArray(measurements)
+                numpy: generateNumpyArray(measurements),
+                semicolon: generateSemicolonSeparated(measurements),
             }
         };
 
