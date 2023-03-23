@@ -101,8 +101,6 @@
                     const latestCommit = commits[0];
                     const commitHash = latestCommit.sha;
                     const commitComments = latestCommit.commit.message;
-                    console.log(`Latest commit hash: ${commitHash}`);
-                    console.log(`Latest commit comments: ${commitComments}`);
                 })
                 .catch(error => console.error(error));
 
