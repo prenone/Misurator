@@ -463,8 +463,6 @@ fastify.patch("/experiments", async (req, reply) => {
         if (tokenData?.user === undefined) {
             return reply.status(403).send();
         }
-
-        console.log(req.body);
         
         const experiment = await prisma.experiment.findUnique({
             where: {
