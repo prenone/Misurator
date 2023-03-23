@@ -9,7 +9,7 @@ async function login() {
             userPassword: document.getElementById("userPasswordInput").value,
         })
     });
-    
+
     if (response.status == 200) {
         alert("Login eseguito");
         window.location = "/login_success"
@@ -28,7 +28,7 @@ async function changePassword() {
             userPassword: document.getElementById("userPasswordInput").value,
         })
     });
-    
+
     if (response.status == 200) {
         alert("Password cambiata");
         window.location = "/experiments"
@@ -47,7 +47,7 @@ async function addExperiment() {
             experimentName: document.getElementById("experimentNameInput").value,
         })
     });
-    
+
     if (response.status == 200) {
         alert("Esperimento creato");
         location.reload();
@@ -67,7 +67,7 @@ async function addMeasurement(element) {
             measurementMeasure: document.getElementById("measurementMeasureInput").value,
         })
     });
-    
+
     if (response.status == 200) {
         // alert("Misurazione aggiunta");
         location.reload();
@@ -86,7 +86,7 @@ async function deleteMeasurement(element) {
             measurementId: element.dataset.measurementid,
         })
     });
-    
+
     if (response.status == 200) {
         // alert("Misurazione eliminata");
         location.reload();
@@ -105,7 +105,7 @@ async function deleteExperiment(element) {
             experimentId: element.dataset.experimentid,
         })
     });
-    
+
     if (response.status == 200) {
         alert("Esperimento eliminato");
         location.reload();
@@ -118,37 +118,37 @@ async function deleteExperiment(element) {
 function fallbackCopyTextToClipboard(text) {
     var textArea = document.createElement("textarea");
     textArea.value = text;
-    
+
     // Avoid scrolling to bottom
     textArea.style.top = "0";
     textArea.style.left = "0";
     textArea.style.position = "fixed";
-  
+
     document.body.appendChild(textArea);
     textArea.focus();
     textArea.select();
-  
-    try {
-      var successful = document.execCommand('copy');
-      var msg = successful ? 'successful' : 'unsuccessful';
-      //console.log('Fallback: Copying text command was ' + msg);
-    } catch (err) {
-      //console.error('Fallback: Oops, unable to copy', err);
-    }
-  
-    document.body.removeChild(textArea);
-  }
 
-  function copyTextToClipboard(element) {
+    try {
+        var successful = document.execCommand('copy');
+        var msg = successful ? 'successful' : 'unsuccessful';
+        //console.log('Fallback: Copying text command was ' + msg);
+    } catch (err) {
+        //console.error('Fallback: Oops, unable to copy', err);
+    }
+
+    document.body.removeChild(textArea);
+}
+
+function copyTextToClipboard(element) {
     const text = element.dataset.copytext;
 
     if (!navigator.clipboard) {
-      fallbackCopyTextToClipboard(text);
-      return;
+        fallbackCopyTextToClipboard(text);
+        return;
     }
-    navigator.clipboard.writeText(text).then(function() {
-      //console.log('Async: Copying to clipboard was successful!');
-    }, function(err) {
-      //console.error('Async: Could not copy text: ', err);
+    navigator.clipboard.writeText(text).then(function () {
+        //console.log('Async: Copying to clipboard was successful!');
+    }, function (err) {
+        //console.error('Async: Could not copy text: ', err);
     });
-  }
+}

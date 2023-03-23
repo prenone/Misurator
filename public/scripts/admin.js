@@ -46,7 +46,7 @@ async function deleteUser(element) {
             userId: element.dataset.userid,
         })
     });
-    
+
     if (response.status == 200) {
         alert("Utente eliminato");
         location.reload();
@@ -68,7 +68,7 @@ async function addUser() {
             userAdmin: document.getElementById("userAdminInput").checked,
         })
     });
-    
+
     if (response.status == 200) {
         alert("Utente creato");
         location.reload();
