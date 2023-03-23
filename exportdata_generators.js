@@ -25,14 +25,5 @@ export function generateSemicolonSeparated(measurements) {
 export function generateCSV(measurements) {
     const measures = measurementsToArray(measurements);
 
-    let csv = "";
-    if (measures.length === 0) {
-        return "";
-    }
-
-    csv += measures.reduce((acc, val, i) =>
-        acc + (i > 0 ? "\n" : "") + val
-    );
-
-    return csv;
+    return measures.join("\n");
 }
