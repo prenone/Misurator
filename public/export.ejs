@@ -24,7 +24,9 @@
         <div class="card mt-3">
             <h3 class="card-header">Informazioni</h3>
             <div class="card-body">
-                <p>Numero misure: <%= measurements.length %></p>
+                <p>Misure effettuate: <b>
+                    <%= measurements.length %>
+                </b>, Valore medio: <b><%= exportData.data.avg %></b></p>
                 <a href="/measurements/<%= experiment.id %>" class="btn btn-primary">Misurazioni</a>
             </div>
         </div>

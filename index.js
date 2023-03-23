@@ -13,6 +13,7 @@ import crypto, { randomUUID } from "crypto";
 
 import { getTokenData, redirectToLogin } from "./auth.js";
 import { generateCSV, generateNumpyArray, generateSemicolonSeparated } from "./exportdata_generators.js";
+import { calculateAverage } from "./math_functions.js";
 
 import path from "path";
 import * as url from "url";
@@ -458,11 +459,14 @@ fastify.get("/measurements/:experimentId", async (req, reply) => {
             }
         });
 
+        const measurementsAvg = calculateAverage(measurements);
+
         await reply.view(measurements_page, {
             user: tokenData.user,
             group: tokenData.user.group,
             experiment,
             measurements,
+            measurementsAvg,
         });
     } catch (err) {
         reply.status(401);
@@ -594,6 +598,7 @@ fastify.get("/export/:experimentId", async (req, reply) => {
             data: {
                 numpy: generateNumpyArray(measurements),
                 semicolon: generateSemicolonSeparated(measurements),
+                avg: calculateAverage(measurements),
             }
         };
 

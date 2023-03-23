@@ -37,18 +37,28 @@
             </div>
         </div>
 
-        <div style="overflow-y: scroll; max-height: 50vh;">
-            <ul class="list-group mt-3">
-                <% measurements.forEach(function(measurement, index){ %>
-                    <li class="list-group-item">
-                        <b>
-                            <%= measurement.measure %>
-                        </b> (<%= measurement.createdAt.toLocaleString("it-IT") %> by <%= measurement.user.name %>)
-                                <button type="button" class="btn btn-danger btn-sm" onclick="deleteMeasurement(this)"
-                                    data-measurementid="<%= measurement.id %>">Elimina</button>
-                    </li>
-                    <% }) %>
-            </ul>
+        <div class="card mt-3">
+            <h3 class="card-header">Misurazioni</h3>
+            <div class="card-body">
+                <p>Misure effettuate: <b>
+                        <%= measurements.length %>
+                    </b>, Valore medio: <b><%= measurementsAvg %></b></p>
+                <div style="overflow-y: scroll; max-height: 50vh;">
+                    <ul class="list-group mt-3">
+                        <% measurements.forEach(function(measurement, index){ %>
+                            <li class="list-group-item">
+                                <b>
+                                    <%= measurement.measure %>
+                                </b> (<%= measurement.createdAt.toLocaleString("it-IT") %> by <%= measurement.user.name
+                                        %>)
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                            onclick="deleteMeasurement(this)"
+                                            data-measurementid="<%= measurement.id %>">Elimina</button>
+                            </li>
+                            <% }) %>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <div class="mt-3">

@@ -1,4 +1,4 @@
-function measurementsToArray(measurements) {
+export function measurementsToArray(measurements) {
     return measurements.map(el => Number(el.measure));
 }
 
