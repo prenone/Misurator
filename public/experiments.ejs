@@ -42,10 +42,10 @@
                                 </b> (<%= experiment.createdAt.toLocaleString("it-IT") %>)
                                     <a href="/measurements/<%= experiment.id %>" class="btn btn-primary">Misurazioni</a>
                                     <a href="/export/<%= experiment.id %>" class="btn btn-primary">Esporta</a>
-                                    <button onclick="deleteExperiment(this)" data-experimentid="<%= experiment.id %>"
-                                        class="btn btn-danger">Elimina</button>
                                     <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                                         data-bs-target="#renameExperimentModal">Rinomina</button>
+                                    <button onclick="deleteExperiment(this)" data-experimentid="<%= experiment.id %>"
+                                        class="btn btn-danger">Elimina</button>
 
                                     <div class="modal" tabindex="-1" id="renameExperimentModal">
                                         <div class="modal-dialog">
