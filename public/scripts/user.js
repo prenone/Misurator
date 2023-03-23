@@ -95,6 +95,25 @@ async function deleteMeasurement(element) {
     }
 }
 
+async function deleteExperiment(element) {
+    const response = await fetch("/experiments", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            experimentId: element.dataset.experimentid,
+        })
+    });
+    
+    if (response.status == 200) {
+        alert("Esperimento eliminato");
+        location.reload();
+    } else {
+        alert("Errore nella eliminazione dell'esperimento: " + (await response.json()).errorText);
+    }
+}
+
 // https://stackoverflow.com/a/30810322/7976964
 function fallbackCopyTextToClipboard(text) {
     var textArea = document.createElement("textarea");

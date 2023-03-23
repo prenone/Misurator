@@ -417,6 +417,48 @@ fastify.put("/experiments", async (req, reply) => {
     }
 });
 
+fastify.delete("/experiments", async (req, reply) => {
+    try {
+        const tokenData = await getTokenData(req.cookies["token"]);
+
+        if (tokenData?.user === undefined) {
+            return reply.status(403).send();
+        }
+
+        const experiment = await prisma.experiment.findUnique({
+            where: {
+                id: Number(req.body.experimentId) ?? null,
+            },
+            include: {
+                group: true,
+                measurements: true,
+            }
+        })
+
+        if (tokenData?.user.groupId !== experiment.groupId) {
+            return reply.status(403).send();
+        }
+
+        if (experiment.measurements.length != 0) {
+            throw "Eliminare tutte le misure prima di eliminare l'esperimento!";
+        }
+
+        await prisma.experiment.delete({
+            where: {
+                id: Number(req.body.experimentId),
+            }
+        });
+    } catch (err) {
+        reply.status(401);
+        await reply.send({
+            errorText: err.toString()
+        })
+    }
+});
+
+
+// Measurements
+
 fastify.get("/measurements", async (req, reply) => {
     reply.redirect("/experiments");
 });
