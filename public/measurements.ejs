@@ -17,7 +17,7 @@
         <h1 class="text-center">Misurazioni</h1>
         <p class="text-center">Benvenuto <b>
                 <%= user.name %>
-            </b> nelle misurazioni dell"esperimento <b>
+            </b> nelle misurazioni dell'esperimento <b>
                 <%= experiment.name %>
             </b> del gruppo <b>
                 <%= group.name %>
@@ -42,7 +42,9 @@
             <div class="card-body">
                 <p>Misure effettuate: <b>
                         <%= measurements.length %>
-                    </b>, Valore medio: <b><%= measurementsAvg %></b></p>
+                    </b>, Valore medio: <b>
+                        <%= measurementsAvg %>
+                    </b></p>
                 <div style="overflow-y: scroll; max-height: 50vh;">
                     <ul class="list-group mt-3">
                         <% measurements.forEach(function(measurement, index){ %>
