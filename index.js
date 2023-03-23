@@ -577,7 +577,7 @@ fastify.get("/export/:experimentId", async (req, reply) => {
                     select: {
                         name: true
                     }
-                }
+                },
             },
             orderBy: {
                 createdAt: "desc"
@@ -601,6 +601,7 @@ fastify.get("/export/:experimentId", async (req, reply) => {
             user: tokenData.user,
             group: tokenData.user.group,
             experiment,
+            measurements,
             exportData,
         });
     } catch (err) {

@@ -21,15 +21,32 @@
                 <%= group.name %>
             </b></p>
 
-        <div class="card">
+        <div class="card mt-3">
+            <h3 class="card-header">Informazioni</h3>
+            <div class="card-body">
+                <p>Numero misure: <%= measurements.length %></p>
+                <a href="/measurements/<%= experiment.id %>" class="btn btn-primary">Misurazioni</a>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <h3 class="card-header">Chiave esportazione</h3>
+            <div class="card-body">
+                <textarea class="form-control" rows="1" readonly><%= experiment.key %></textarea>
+                <button onclick="copyTextToClipboard(this)" data-copytext="<%= experiment.key %>"
+                    class="btn btn-link">Copia negli Appunti</button>
+            </div>
+        </div>
+
+        <div class="card mt-3">
             <h3 class="card-header">Esporta CSV</h3>
             <div class="card-body">
-                <p class="card-text">Direct link:</p>
                 <a href="<%= exportData.links.csv %>" class="btn btn-success">Download</a>
                 <br>
                 <br>
-                <p class="card-text">Link:</p>
                 <textarea class="form-control" rows="1" readonly><%= exportData.links.csv %></textarea>
+                <button onclick="copyTextToClipboard(this)" data-copytext="<%= exportData.links.csv %>"
+                    class="btn btn-link">Copia negli Appunti</button>
             </div>
         </div>
 
@@ -37,6 +54,8 @@
             <h3 class="card-header">Esporta array Numpy</h3>
             <div class="card-body">
                 <textarea class="form-control" rows="10" readonly><%= exportData.data.numpy %></textarea>
+                <button onclick="copyTextToClipboard(this)" data-copytext="<%= exportData.data.numpy %>"
+                    class="btn btn-link">Copia negli Appunti</button>
             </div>
         </div>
 
@@ -44,6 +63,8 @@
             <h3 class="card-header">Esporta ;-separated</h3>
             <div class="card-body">
                 <textarea class="form-control" rows="1" readonly><%= exportData.data.semicolon %></textarea>
+                <button onclick="copyTextToClipboard(this)" data-copytext="<%= exportData.data.semicolon %>"
+                    class="btn btn-link">Copia negli Appunti</button>
             </div>
         </div>
 
