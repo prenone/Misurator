@@ -456,6 +456,45 @@ fastify.delete("/experiments", async (req, reply) => {
     }
 });
 
+fastify.patch("/experiments", async (req, reply) => {
+    try {
+        const tokenData = await getTokenData(req.cookies["token"]);
+
+        if (tokenData?.user === undefined) {
+            return reply.status(403).send();
+        }
+
+        console.log(req.body);
+        
+        const experiment = await prisma.experiment.findUnique({
+            where: {
+                id: Number(req.body.experimentId) ?? null,
+            },
+            include: {
+                group: true,
+                measurements: true,
+            }
+        })
+
+        if (tokenData?.user.groupId !== experiment.groupId) {
+            return reply.status(403).send();
+        }
+
+        await prisma.experiment.update({
+            where: {
+                id: Number(req.body.experimentId) ?? null,
+            },
+            data: {
+                name: req.body.experimentName,
+            }
+        })
+    } catch (err) {
+        reply.status(401);
+        await reply.send({
+            errorText: err.toString()
+        })
+    }
+});
 
 // Measurements
 

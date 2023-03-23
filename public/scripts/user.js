@@ -114,6 +114,31 @@ async function deleteExperiment(element) {
     }
 }
 
+async function renameExperiment(element) {
+    const experimentRenameInput = document.getElementById("experimentRenameInput")
+
+    const response = await fetch("/experiments", {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            experimentId: element.dataset.experimentid,
+            experimentName: experimentRenameInput.value,
+        })
+    });
+
+    if (response.status == 200) {
+        alert("Esperimento rinominato");
+        location.reload();
+    } else {
+        alert("Errore nella rinominazione dell'esperimento: " + (await response.json()).errorText);
+    }
+
+    experimentRenameInput.value = "";
+}
+
+
 // https://stackoverflow.com/a/30810322/7976964
 function fallbackCopyTextToClipboard(text) {
     var textArea = document.createElement("textarea");
