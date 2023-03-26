@@ -138,6 +138,35 @@ async function renameExperiment(element) {
     experimentRenameInput.value = "";
 }
 
+let global_measurementId = "";
+function setGlobalMeasurementId(element) {
+    global_measurementId = element.dataset.measurementid;
+}
+
+async function patchMeasurement() {
+    const patchMeasurementInput = document.getElementById("patchMeasurementInput")
+
+    const response = await fetch("/measurements", {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            measurementId: global_measurementId,
+            measurementMeasure: patchMeasurementInput.value,
+        })
+    });
+
+    if (response.status == 200) {
+        //alert("Misura modificata");
+        location.reload();
+    } else {
+        alert("Errore nella modifica della misura: " + (await response.json()).errorText);
+    }
+
+    patchMeasurementInput.value = "";
+    global_measurementId = "";
+}
 
 // https://stackoverflow.com/a/30810322/7976964
 function fallbackCopyTextToClipboard(text) {

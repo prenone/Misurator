@@ -56,6 +56,10 @@
                                         <button type="button" class="btn btn-danger btn-sm"
                                             onclick="deleteMeasurement(this)"
                                             data-measurementid="<%= measurement.id %>">Elimina</button>
+
+                                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#patchMeasurementModal" data-measurementid="<%= measurement.id %>" onclick="setGlobalMeasurementId(this)">Modifica</button>
+
                             </li>
                             <% }) %>
                     </ul>
@@ -65,6 +69,24 @@
 
         <div class="mt-3">
             <a href="/experiments" class="btn btn-primary">Esperimenti</a>
+        </div>
+
+        <div class="modal" tabindex="-1" id="patchMeasurementModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modifica misurazione</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control" id="patchMeasurementInput">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                            onclick="patchMeasurement()">Salva</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- Latest compiled and minified JavaScript -->

@@ -622,6 +622,43 @@ fastify.delete("/measurements", async (req, reply) => {
     }
 });
 
+fastify.patch("/measurements", async (req, reply) => {
+    try {
+        const tokenData = await getTokenData(req.cookies["token"]);
+
+        if (tokenData?.user === undefined) {
+            return reply.status(403).send();
+        }
+        
+        const measurement = await prisma.measurement.findUnique({
+            where: {
+                id: Number(req.body.measurementId) ?? null,
+            },
+            include: {
+                user: true,
+            }
+        })
+
+        if (tokenData?.user.groupId !== measurement.user.groupId) {
+            return reply.status(403).send();
+        }
+
+        await prisma.measurement.update({
+            where: {
+                id: Number(req.body.measurementId) ?? null,
+            },
+            data: {
+                measure: req.body.measurementMeasure,
+            }
+        })
+    } catch (err) {
+        reply.status(401);
+        await reply.send({
+            errorText: err.toString()
+        })
+    }
+});
+
 
 // Export
 
