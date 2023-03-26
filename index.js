@@ -746,12 +746,23 @@ fastify.get("/exportdata/:experimentKey", async (req, reply) => {
             where: {
                 key: expertimentKey ?? null
             },
-            include: {
-                measurements: true,
-            }
         });
 
-        const measurements = experiment.measurements;
+        const measurements = await prisma.measurement.findMany({
+            where: {
+                experimentId: experiment.id,
+            },
+            include: {
+                user: {
+                    select: {
+                        name: true
+                    }
+                },
+            },
+            orderBy: {
+                createdAt: "desc"
+            }
+        });
 
         reply
             .header("Cache-Control", "no-cache, no-store, must-revalidate")
