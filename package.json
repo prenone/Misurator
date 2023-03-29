@@ -1,6 +1,6 @@
 {
   "name": "misurator",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "Aiuta gli aspiranti fisici a registrare, memorizzare ed esportare misure sperimentali",
   "main": "index.js",
   "scripts": {
@@ -8,8 +8,7 @@
     "build": "npm run generate",
     "deploy": "npx prisma migrate deploy",
     "start": "npm run deploy && node index.js",
-    "build-docker": "docker build -t misurator . && docker save misurator:latest > misurator.tar",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build-docker": "docker build -t misurator . && docker save misurator:latest > misurator.tar"
   },
   "author": "Achille Merendino",
   "license": "ISC",
