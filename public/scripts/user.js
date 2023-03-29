@@ -132,7 +132,7 @@ async function duplicateMeasurement(element) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            experimentId: element.dataset.experimentid,
+            measurementId: element.dataset.measurementid,
         })
     });
 

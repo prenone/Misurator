@@ -373,7 +373,7 @@ fastify.get("/experiments", async (req, reply) => {
                 groupId: tokenData.user.groupId ?? null,
             },
             orderBy: {
-                createdAt: "desc"
+                createdAt: "desc",
             }
         });
 
@@ -463,7 +463,7 @@ fastify.patch("/experiments", async (req, reply) => {
         if (tokenData?.user === undefined) {
             return reply.status(403).send();
         }
-        
+
         const experiment = await prisma.experiment.findUnique({
             where: {
                 id: Number(req.body.experimentId) ?? null,
@@ -533,9 +533,14 @@ fastify.get("/measurements/:experimentId", async (req, reply) => {
                     }
                 }
             },
-            orderBy: {
-                createdAt: "desc"
-            }
+            orderBy: [
+                {
+                    createdAt: "desc",
+                },
+                {
+                    orderModifier: "desc"
+                }
+            ]
         });
 
         const measurementsAvg = calculateAverage(measurements);
@@ -629,7 +634,7 @@ fastify.patch("/measurements", async (req, reply) => {
         if (tokenData?.user === undefined) {
             return reply.status(403).send();
         }
-        
+
         const measurement = await prisma.measurement.findUnique({
             where: {
                 id: Number(req.body.measurementId) ?? null,
@@ -659,6 +664,83 @@ fastify.patch("/measurements", async (req, reply) => {
     }
 });
 
+fastify.put("/measurements/duplicate", async (req, reply) => {
+    try {
+        const tokenData = await getTokenData(req.cookies["token"]);
+
+        if (tokenData?.user === undefined) {
+            return reply.status(403).send();
+        }
+
+        const measurement = await prisma.measurement.findUnique({
+            where: {
+                id: Number(req.body.measurementId)
+            },
+            include: {
+                experiment: {
+                    include: {
+                        measurements: {
+                            orderBy: [
+                                {
+                                    createdAt: "desc",
+                                },
+                                {
+                                    orderModifier: "desc"
+                                }
+                            ]
+                        },
+                    }
+                }
+            }
+        });
+
+        if (tokenData?.user.groupId !== measurement.experiment.groupId) {
+            return reply.status(403).send();
+        }
+
+        const sameTimeMeasurements = measurement.experiment.measurements.filter(
+            measurementEl => {
+                return measurementEl.createdAt.getTime() === measurement.createdAt.getTime();
+            }
+        );
+
+        let newOrderModifier;
+
+        if (sameTimeMeasurements.length === 1) {
+            newOrderModifier = measurement.orderModifier + 1;
+        } else {
+            let orderModifiers = sameTimeMeasurements.map(measurement => measurement.orderModifier);
+
+            if (measurement.orderModifier === orderModifiers[0]) {
+                newOrderModifier = measurement.orderModifier + 1;
+            } else {
+                const orderModifierIndex = orderModifiers.indexOf(measurement.orderModifier);
+                newOrderModifier =
+                    (orderModifiers[orderModifierIndex - 1] + orderModifiers[orderModifierIndex]) / 2
+            }
+        }
+
+        if (newOrderModifier <= measurement.orderModifier)
+            throw "Impossible OrderModifer. Perhaps you created too many duplicates of the same measurement."
+
+        await prisma.measurement.create({
+            data: {
+                measure: measurement.measure,
+                createdAt: measurement.createdAt,
+                experimentId: measurement.experimentId,
+                userId: measurement.userId,
+                orderModifier: newOrderModifier,
+            }
+        });
+
+        return;
+    } catch (err) {
+        reply.status(401);
+        await reply.send({
+            errorText: err.toString()
+        })
+    }
+});
 
 // Export
 
@@ -699,9 +781,14 @@ fastify.get("/export/:experimentId", async (req, reply) => {
                     }
                 },
             },
-            orderBy: {
-                createdAt: "desc"
-            }
+            orderBy: [
+                {
+                    createdAt: "desc",
+                },
+                {
+                    orderModifier: "desc"
+                }
+            ]
         });
 
         const protocol = req.hostname.includes("localhost") ? "http" : "https"
@@ -759,9 +846,14 @@ fastify.get("/exportdata/:experimentKey", async (req, reply) => {
                     }
                 },
             },
-            orderBy: {
-                createdAt: "desc"
-            }
+            orderBy: [
+                {
+                    createdAt: "desc",
+                },
+                {
+                    orderModifier: "desc"
+                }
+            ]
         });
 
         reply
