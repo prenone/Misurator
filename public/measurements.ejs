@@ -58,7 +58,9 @@
                                             data-measurementid="<%= measurement.id %>">Elimina</button>
 
                                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#patchMeasurementModal" data-measurementid="<%= measurement.id %>" onclick="setGlobalMeasurementId(this)">Modifica</button>
+                                            data-bs-target="#patchMeasurementModal"
+                                            data-measurementid="<%= measurement.id %>"
+                                            onclick="setGlobalMeasurementIdForPatch(this)">Modifica</button>
 
                             </li>
                             <% }) %>

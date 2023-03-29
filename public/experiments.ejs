@@ -43,7 +43,8 @@
                                     <a href="/measurements/<%= experiment.id %>" class="btn btn-primary">Misurazioni</a>
                                     <a href="/export/<%= experiment.id %>" class="btn btn-primary">Esporta</a>
                                     <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#renameExperimentModal">Rinomina</button>
+                                        data-bs-target="#renameExperimentModal" data-experimentid="<%= experiment.id %>"
+                                        onclick="setGlobalExperimentForRename(this)">Rinomina</button>
                                     <button onclick="deleteExperiment(this)" data-experimentid="<%= experiment.id %>"
                                         class="btn btn-danger">Elimina</button>
 
@@ -56,12 +57,11 @@
                                                         data-bs-dismiss="modal"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <input type="text" class="form-control" id="experimentRenameInput"
-                                                        placeholder="<%= experiment.name %>">
+                                                    <input type="text" class="form-control" id="experimentRenameInput">
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-primary"
-                                                        data-bs-dismiss="modal" data-experimentid="<%= experiment.id %>"
+                                                        data-bs-dismiss="modal"
                                                         onclick="renameExperiment(this)">Salva</button>
                                                 </div>
                                             </div>

@@ -95,6 +95,55 @@ async function deleteMeasurement(element) {
     }
 }
 
+let global_measurementId_forpatch = "";
+function setGlobalMeasurementIdForPatch(element) {
+    global_measurementId_forpatch = element.dataset.measurementid;
+}
+
+async function patchMeasurement() {
+    const patchMeasurementInput = document.getElementById("patchMeasurementInput")
+
+    const response = await fetch("/measurements", {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            measurementId: global_measurementId_forpatch,
+            measurementMeasure: patchMeasurementInput.value,
+        })
+    });
+
+    if (response.status == 200) {
+        //alert("Misura modificata");
+        location.reload();
+    } else {
+        alert("Errore nella modifica della misura: " + (await response.json()).errorText);
+    }
+
+    patchMeasurementInput.value = "";
+    global_measurementId_forpatch = "";
+}
+
+async function duplicateMeasurement(element) {
+    const response = await fetch("/measurements/duplicate", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            experimentId: element.dataset.experimentid,
+        })
+    });
+
+    if (response.status == 200) {
+        // alert("Misurazione aggiunta");
+        location.reload();
+    } else {
+        alert("Errore nell'aggiunta della misurazione: " + (await response.json()).errorText);
+    }
+}
+
 async function deleteExperiment(element) {
     const response = await fetch("/experiments", {
         method: "DELETE",
@@ -114,6 +163,12 @@ async function deleteExperiment(element) {
     }
 }
 
+
+let global_experimentId_forrename = "";
+function setGlobalExperimentForRename(element) {
+    global_experimentId_forrename = element.dataset.experimentid;
+}
+
 async function renameExperiment(element) {
     const experimentRenameInput = document.getElementById("experimentRenameInput")
 
@@ -123,49 +178,19 @@ async function renameExperiment(element) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            experimentId: element.dataset.experimentid,
+            experimentId: global_experimentId_forrename,
             experimentName: experimentRenameInput.value,
         })
     });
 
     if (response.status == 200) {
-        alert("Esperimento rinominato");
+        //alert("Esperimento rinominato");
         location.reload();
     } else {
         alert("Errore nella rinominazione dell'esperimento: " + (await response.json()).errorText);
     }
 
     experimentRenameInput.value = "";
-}
-
-let global_measurementId = "";
-function setGlobalMeasurementId(element) {
-    global_measurementId = element.dataset.measurementid;
-}
-
-async function patchMeasurement() {
-    const patchMeasurementInput = document.getElementById("patchMeasurementInput")
-
-    const response = await fetch("/measurements", {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            measurementId: global_measurementId,
-            measurementMeasure: patchMeasurementInput.value,
-        })
-    });
-
-    if (response.status == 200) {
-        //alert("Misura modificata");
-        location.reload();
-    } else {
-        alert("Errore nella modifica della misura: " + (await response.json()).errorText);
-    }
-
-    patchMeasurementInput.value = "";
-    global_measurementId = "";
 }
 
 // https://stackoverflow.com/a/30810322/7976964
